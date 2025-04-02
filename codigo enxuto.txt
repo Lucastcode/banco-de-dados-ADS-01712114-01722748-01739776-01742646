@@ -1,0 +1,133 @@
+CREATE DATABASE delicatto;
+USE delicatto;
+
+CREATE TABLE Categoria (
+    idcategoria INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Descricao (
+    iddescricao INT AUTO_INCREMENT PRIMARY KEY,
+    descricao_produto VARCHAR(120) NOT NULL
+);
+
+CREATE TABLE Produto (
+    idproduto INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    idCategoria INT,
+    idDescricao INT,
+    FOREIGN KEY(idCategoria) REFERENCES Categoria(idcategoria),
+    FOREIGN KEY(idDescricao) REFERENCES Descricao(iddescricao)
+);
+
+CREATE TABLE Cliente (
+    idcliente INT AUTO_INCREMENT PRIMARY KEY,
+    Email VARCHAR(100) NOT NULL,
+    Nome VARCHAR(50) NOT NULL,
+    Telefone VARCHAR(15) NOT NULL UNIQUE,
+    Senha INT NOT NULL
+);
+
+CREATE TABLE Cidade (
+    idcidade INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Endereco (
+    idendereco INT AUTO_INCREMENT PRIMARY KEY,
+    Logradouro VARCHAR(35) NOT NULL,
+    CEP VARCHAR(10) NOT NULL,
+    Numero INT NOT NULL,
+    idCidade INT,
+    FOREIGN KEY(idCidade) REFERENCES Cidade(idcidade)
+);
+
+CREATE TABLE CLIENTE_ENDERECO (
+    idCliente INT,
+    idEndereco INT,
+    PRIMARY KEY(idCliente, idEndereco),
+    FOREIGN KEY(idCliente) REFERENCES Cliente(idcliente),
+    FOREIGN KEY(idEndereco) REFERENCES Endereco(idendereco)
+);
+
+CREATE TABLE Venda (
+    idvenda INT AUTO_INCREMENT PRIMARY KEY,
+    Frete DECIMAL(10, 2) NOT NULL,
+    Valor DECIMAL(10, 2) NOT NULL,
+    idCliente INT,
+    FOREIGN KEY(idCliente) REFERENCES Cliente(idcliente)
+);
+
+CREATE TABLE Produto_Venda (
+    idProduto INT,
+    idVenda INT,
+    Quantidade DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY(idProduto, idVenda),
+    FOREIGN KEY(idProduto) REFERENCES Produto(idproduto),
+    FOREIGN KEY(idVenda) REFERENCES Venda(idvenda)
+);
+
+INSERT INTO Cidade (Nome) VALUES 
+('Paulista'),
+('Abreu e Lima'),
+('Igarassu'),
+('Goiana'),
+('São Lourenço da Mata');
+
+INSERT INTO Cliente (Email, Nome, Telefone, Senha) VALUES 
+('carla.martins@email.com', 'Carla Martins', '81987654322', 12346),
+('felipe.santos@email.com', 'Felipe Santos', '81987654323', 67891),
+('laura.moura@email.com', 'Laura Moura', '81987654324', 11224),
+('ricardo.silva@email.com', 'Ricardo Silva', '81987654325', 44557),
+('gabriela.pereira@email.com', 'Gabriela Pereira', '81987654326', 78902);
+
+INSERT INTO Descricao (descricao_produto) VALUES 
+('Torta de Limão'),
+('Bolo de Chocolate com Morango'),
+('Cupcake de Baunilha'),
+('Mousse de Maracujá'),
+('Pudim de Leite Condensado'),
+('Rocambole de Goiaba');
+
+INSERT INTO Categoria (nome) VALUES
+('Doces'), 
+('Bolos'), 
+('Tortas');
+
+INSERT INTO Produto (nome, idCategoria, idDescricao) VALUES 
+('Torta de Limão', 1, 1), 
+('Bolo de Chocolate com Morango', 1, 2), 
+('Cupcake de Baunilha', 1, 3), 
+('Mousse de Maracujá', 1, 4), 
+('Pudim de Leite Condensado', 1, 5),
+('Bolo de Coco', 1, 6);
+
+INSERT INTO Endereco (Logradouro, CEP, Numero, idCidade) VALUES
+('Rua da Luz, 60', '51020-130', 60, 1),
+('Avenida Recife, 80', '53010-320', 80, 2),
+('Rua das Orquídeas, 70', '54320-160', 70, 3),
+('Avenida Boa Viagem, 90', '54760-430', 90, 4),
+('Avenida Principal, 120', '51060-320', 120, 6);
+
+INSERT INTO CLIENTE_ENDERECO (idCliente, idEndereco) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5);
+
+INSERT INTO Venda (Frete, Valor, idCliente) VALUES
+(15.00, 45.00, 1),
+(18.00, 90.00, 2),
+(20.00, 110.00, 3),
+(22.00, 150.00, 4),
+(25.00, 180.00, 5);
+
+INSERT INTO Produto_Venda (idProduto, idVenda, Quantidade) VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 1),
+(4, 4, 2),
+(5, 5, 3);
+
+
