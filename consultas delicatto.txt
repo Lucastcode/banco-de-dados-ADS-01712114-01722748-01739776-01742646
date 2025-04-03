@@ -1,0 +1,111 @@
+1.Listar todas as categorias:
+
+SELECT * FROM Categoria;
+
+2.Listar todos os produtos com suas categorias:
+
+SELECT p.nome AS Produto, c.nome AS Categoria
+FROM Produto p
+JOIN Categoria c ON p.idCategoria = c.idcategoria;
+
+3.Listar todos os clientes:
+
+SELECT * FROM Cliente;
+
+4.Buscar um produto específico por nome:
+
+SELECT * FROM Produto
+WHERE nome = 'Torta de Limão';
+
+5. Listar todos os endereços de clientes:
+
+SELECT c.Nome, e.Logradouro, e.CEP, e.Numero
+FROM Cliente c
+JOIN CLIENTE_ENDERECO ce ON c.idcliente = ce.idCliente
+JOIN Endereco e ON ce.idEndereco = e.idendereco;
+
+
+6.Listar os produtos de uma categoria específica:
+
+SELECT p.nome AS Produto
+FROM Produto p
+JOIN Categoria c ON p.idCategoria = c.idcategoria
+WHERE c.nome = 'Doces';
+
+
+7.Buscar todos os produtos vendidos em uma venda específica:
+
+SELECT pv.Quantidade, p.nome
+FROM Produto_Venda pv
+JOIN Produto p ON pv.idProduto = p.idproduto
+WHERE pv.idVenda = 1;
+
+
+8.Buscar todas as vendas realizadas por um cliente:
+
+SELECT v.idvenda, v.Frete, v.Valor
+FROM Venda v
+JOIN Cliente c ON v.idCliente = c.idcliente
+WHERE c.idcliente = 1;
+
+
+9.ontar o número de vendas realizadas:
+
+SELECT COUNT(*) AS TotalVendas
+FROM Venda;
+
+10.Buscar todos os produtos e suas descrições:
+
+SELECT p.nome, d.descricao_produto
+FROM Produto p
+JOIN Descricao d ON p.idDescricao = d.iddescricao;
+
+11.Listar os endereços dos clientes em uma cidade específica:
+
+SELECT c.Nome, e.Logradouro, e.Numero
+FROM Cliente c
+JOIN CLIENTE_ENDERECO ce ON c.idcliente = ce.idCliente
+JOIN Endereco e ON ce.idEndereco = e.idendereco
+JOIN Cidade ci ON e.idCidade = ci.idcidade
+WHERE ci.Nome = 'Paulista';
+
+12.Buscar todos os clientes que compraram um produto específico:
+
+ SELECT c.Nome, p.nome AS Produto
+FROM Cliente c
+JOIN Venda v ON c.idcliente = v.idCliente
+JOIN Produto_Venda pv ON v.idvenda = pv.idVenda
+JOIN Produto p ON pv.idProduto = p.idproduto
+WHERE p.nome = 'Torta de Limão';
+
+13.Listar os produtos vendidos em uma faixa de preço:
+
+SELECT p.nome, v.Valor
+FROM Produto p
+JOIN Produto_Venda pv ON p.idproduto = pv.idProduto
+JOIN Venda v ON pv.idVenda = v.idvenda
+WHERE v.Valor BETWEEN 50.00 AND 100.00;
+
+
+14.Buscar todos os produtos e suas quantidades vendidas:
+
+SELECT p.nome, SUM(pv.Quantidade) AS QuantidadeVendida
+FROM Produto p
+JOIN Produto_Venda pv ON p.idproduto = pv.idProduto
+GROUP BY p.idproduto;
+
+15.Buscar todos os clientes que moram em um endereço específico:
+
+
+SELECT c.Nome, e.Logradouro, e.CEP
+FROM Cliente c
+JOIN CLIENTE_ENDERECO ce ON c.idcliente = ce.idCliente
+JOIN Endereco e ON ce.idEndereco = e.idendereco
+WHERE e.Logradouro = 'Rua da Luz, 60';
+
+
+
+
+
+
+
